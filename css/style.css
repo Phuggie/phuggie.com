@@ -8,7 +8,7 @@ body {
   background-color: #0d0d0d;
   color: white;
   font-family: 'Segoe UI', sans-serif;
-  background-image: url('HomeBackground.jpg');
+  background-image: url('../assets/HomeBackground.jpg');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
