@@ -29,8 +29,10 @@ iframe {
 }
 
 .twitchEmbed iframe {
+  width: 100%;
+  height: 100%;
   border: none;
-  transform: rotateX(358deg) rotateY(10deg);
+  transform: rotateX(358deg) rotateY(8deg);
   transform-style: preserve-3d;
 }
 
