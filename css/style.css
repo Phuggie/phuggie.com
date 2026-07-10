@@ -21,6 +21,15 @@ iframe {
   aspect-ratio: 2.39/1;
 }
 
+.twitchEmbed {
+  perspective: 1000px;
+}
+
+.twitchEmbed iframe {
+  transform: rotateX('20deg') rotateY('20deg');
+  transform-style: preserve-3d;
+}
+
 nav {
   display: flex;
   gap: 20px;
