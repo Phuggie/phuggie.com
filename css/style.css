@@ -31,7 +31,8 @@ main {
   padding: 40px 20px;
 }
 
-hh1 {
+h1 {
+    display: inline-block;
   background: linear-gradient(135deg, #9333ea, #c084fc);
   -webkit-background-clip: text;
   background-clip: text;
