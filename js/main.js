@@ -2,10 +2,10 @@ const IMG_W = 6000;
 const IMG_H = 3375;
 
 const CORNERS = {
-  tl: { x: 2367, y: 1224 },
+  tl: { x: 2364, y: 1228 },
   tr: { x: 4073, y: 1195 },
-  br: { x: 4060, y: 2003 },
-  bl: { x: 2367, y: 2144 },
+  br: { x: 4062, y: 2007 },
+  bl: { x: 2367, y: 2138 },
 };
 
 function positionEmbed() {
