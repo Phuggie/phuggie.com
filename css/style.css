@@ -47,10 +47,6 @@ main {
 
 .twitchEmbed {
   position: absolute;
-  left:   37.5944%;
-  top:    36.2667%;
-  width:  33.4343%;
-  height: 27.2593%;
   transform-origin: 0 0;
 }
 
@@ -59,12 +55,6 @@ main {
   height: 100%;
   border: none;
   transform-origin: 0 0;
-  transform: matrix3d(
-    1.1401416137, -0.0193810708, 0, 0.0003132698,
-    0.0000000000,  1.0087547791, 0, 0.0000362901,
-    0,             0,            1, 0,
-    0.0000000000,  0.0000000000, 0, 1.0000000000
-  );
 }
 
 .intro {
