@@ -40,7 +40,7 @@ main {
   height: calc(100vh - 60px);
   background-image: url('../assets/HomeBackground.jpg');
   background-size: cover;
-  background-position: center;
+  background-position: 50% 50%;
   background-repeat: no-repeat;
   overflow: hidden;
 }
@@ -50,8 +50,8 @@ main {
   perspective: 1000px;
   width: 29.5vw;
   height: 15vw;
-  top: 27%;
-  left: 39.5%;
+  top: 28vh;
+  left: 39.5vw;
 }
 
 .twitchEmbed iframe {
