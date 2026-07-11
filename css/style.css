@@ -47,19 +47,24 @@ main {
 
 .twitchEmbed {
   position: absolute;
-  perspective: 1000px;
-  width: 29.5vw;
-  height: 15vw;
-  top: 30.4vh;
-  left: 39.7vw;
+  left: 39.4500%;
+  top: 36.2667%;
+  width: 28.4333%;
+  height: 27.2593%;
+  transform-origin: 0 0;
 }
 
 .twitchEmbed iframe {
   width: 100%;
   height: 100%;
   border: none;
-  transform: rotateX(355deg) rotateY(13deg) rotateZ(-0.8deg);
-  transform-style: preserve-3d;
+  transform-origin: 0 0;
+  transform: matrix3d(
+    1.14014161, -0.03445524, 0.00000000, 0.00492878,
+    0.00000000,  1.00875478, 0.00000000, 0.00032117,
+    0.00000000,  0.00000000, 1.00000000, 0.00000000,
+    0.00000000,  0.00000000, 0.00000000, 1.00000000
+  );
 }
 
 .intro {
