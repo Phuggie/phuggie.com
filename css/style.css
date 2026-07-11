@@ -44,7 +44,7 @@ main {
 }
 
 .twitchEmbed {
-  position: fixed;
+  position: absolute;
   perspective: 1000px;
   width: 29.5vw;
   height: 15vw;
@@ -60,29 +60,27 @@ main {
   transform-style: preserve-3d;
 }
 
-/* Intro text section — sits below the hero */
 .intro {
-  padding: 60px 40px;
-  max-width: 800px;
-  background: linear-gradient(135deg, rgba(26,0,48,0.85), rgba(45,0,96,0.85));
-  border-radius: 12px;
-  margin: 40px auto;
+  position: absolute;
+  top: 30%;
+  left: 3%;
+  width: 22%;
 }
 
-h1 {
+.intro h1 {
   display: inline-block;
   background: linear-gradient(135deg, #9333ea, #c084fc);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
-  font-size: 48px;
+  font-size: 2.5vw;
   margin-bottom: 16px;
 }
 
 .intro p {
   color: #e9d5ff;
-  font-size: 18px;
+  font-size: 1vw;
   line-height: 1.7;
 }
 
