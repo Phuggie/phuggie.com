@@ -5,7 +5,7 @@ const CORNERS = {
   tl: { x: 2364, y: 1228 },
   tr: { x: 4073, y: 1195 },
   br: { x: 4062, y: 2007 },
-  bl: { x: 2367, y: 2145 },
+  bl: { x: 2367, y: 2150 },
 };
 
 function positionEmbed() {
