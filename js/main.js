@@ -1,3 +1,4 @@
+// ─── Monitor screen corner coordinates in the original photo (pixels) ───────
 const IMG_W = 6000;
 const IMG_H = 3375;
 
@@ -8,10 +9,17 @@ const CORNERS = {
   bl: { x: 2367, y: 2158 },
 };
 
+// ─── Main positioning function ───────────────────────────────────────────────
+// Calculates how background-size:cover crops the hero image at the current
+// window size, maps the monitor corners to screen coordinates, then applies
+// a perspective-correct matrix3d transform to the Twitch embed iframe.
 function positionEmbed() {
   const hero   = document.querySelector('.hero');
   const embed  = document.querySelector('.twitchEmbed');
   const iframe = document.querySelector('.twitchEmbed iframe');
+
+  // Guard — main.js runs on every page; skip if these elements don't exist
+  if (!hero || !embed || !iframe) return;
 
   const heroW = hero.offsetWidth;
   const heroH = hero.offsetHeight;
@@ -43,20 +51,20 @@ function positionEmbed() {
   embed.style.width  = w + 'px';
   embed.style.height = h + 'px';
 
-  // Destination trapezoid corners relative to tl anchor
+  // Source rectangle corners (flat iframe) and destination trapezoid corners
+  // (actual monitor screen shape) relative to tl anchor
   const src = [[0,0],[w,0],[w,h],[0,h]];
   const dst = [
-    [0,             0            ],
-    [tr.x - tl.x,  tr.y - tl.y ],
-    [br.x - tl.x,  br.y - tl.y ],
-    [bl.x - tl.x,  bl.y - tl.y ],
+    [0,            0           ],
+    [tr.x - tl.x, tr.y - tl.y],
+    [br.x - tl.x, br.y - tl.y],
+    [bl.x - tl.x, bl.y - tl.y],
   ];
 
   const H = solveHomography(src, dst);
 
   // CSS matrix3d is column-major — map 3x3 homography to 4x4
   // H indices: [0]=a [1]=b [2]=c [3]=d [4]=e [5]=f [6]=g [7]=h [8]=i
-  // matrix3d column order: col1, col2, col3, col4
   iframe.style.transformOrigin = '0 0';
   iframe.style.transform = `matrix3d(
     ${H[0]}, ${H[3]}, 0, ${H[6]},
@@ -66,8 +74,13 @@ function positionEmbed() {
   )`;
 }
 
+// ─── Homography solver ───────────────────────────────────────────────────────
+// Finds the 3x3 perspective transform matrix that maps src rectangle corners
+// to dst trapezoid corners. Uses inverse iteration with LU decomposition
+// (with partial pivoting) to find the smallest eigenvector of ATA — the
+// null space of the constraint matrix A, which is the exact homography solution.
 function solveHomography(src, dst) {
-  // Build 8x9 matrix A from point correspondences
+  // Build 8x9 constraint matrix A from point correspondences
   const A = [];
   for (let i = 0; i < 4; i++) {
     const [x, y]   = src[i];
@@ -76,7 +89,7 @@ function solveHomography(src, dst) {
     A.push([ 0,  0,  0, -x, -y, -1,  x*yp,  y*yp,  yp]);
   }
 
-  // Build ATA (9x9)
+  // Build ATA (9x9) — symmetric positive semi-definite
   const n = 9;
   const ATA = Array.from({ length: n }, () => Array(n).fill(0));
   for (let i = 0; i < n; i++)
@@ -84,16 +97,15 @@ function solveHomography(src, dst) {
       for (let r = 0; r < A.length; r++)
         ATA[i][j] += A[r][i] * A[r][j];
 
-  // Inverse iteration to find SMALLEST eigenvector
-  // (power iteration finds largest — we need smallest, so we invert)
+  // Inverse iteration with LU decomposition to find SMALLEST eigenvector
+  // Deterministic initialization aligned with h[8] (our normalization target)
   const LU = luDecompose(ATA);
-  let v = Array(n).fill(1).map((_, i) => i === 0 ? 1 : Math.random() * 0.01);
-  let norm = Math.sqrt(v.reduce((s, x) => s + x * x, 0));
-  v = v.map(x => x / norm);
+  let v = Array(n).fill(0);
+  v[8] = 1;
 
   for (let iter = 0; iter < 200; iter++) {
-    v = luSolve(LU, v);  // v = ATA^-1 * v  →  converges to smallest eigenvector
-    norm = Math.sqrt(v.reduce((s, x) => s + x * x, 0));
+    v = luSolve(LU, v);  // v = ATA^-1 * v → converges to smallest eigenvector
+    const norm = Math.sqrt(v.reduce((s, x) => s + x * x, 0));
     v = v.map(x => x / norm);
   }
 
@@ -102,14 +114,19 @@ function solveHomography(src, dst) {
   return v.map(x => x / s);
 }
 
+// ─── LU decomposition with partial pivoting ──────────────────────────────────
+// Factors matrix A into L (lower triangular) and U (upper triangular).
+// Partial pivoting swaps rows to put the largest available value on the
+// diagonal at each step, preventing division by near-zero values.
 function luDecompose(A) {
   const n = A.length;
-  const L = Array.from({ length: n }, (_, i) => Array(n).fill(0).map((_, j) => i === j ? 1 : 0));
+  const L = Array.from({ length: n }, (_, i) =>
+    Array(n).fill(0).map((_, j) => i === j ? 1 : 0));
   const U = A.map(row => [...row]);
-  const P = Array.from({ length: n }, (_, i) => i); // pivot index
+  const P = Array.from({ length: n }, (_, i) => i);
 
   for (let col = 0; col < n; col++) {
-    // Partial pivoting
+    // Partial pivoting — find row with largest absolute value in this column
     let maxVal = Math.abs(U[col][col]);
     let maxRow = col;
     for (let row = col + 1; row < n; row++) {
@@ -136,13 +153,16 @@ function luDecompose(A) {
   return { L, U, P };
 }
 
+// ─── LU solve ────────────────────────────────────────────────────────────────
+// Solves Ax = b given LU decomposition of A.
+// Forward substitution solves Ly = Pb, back substitution solves Ux = y.
 function luSolve({ L, U, P }, b) {
   const n = L.length;
 
-  // Apply permutation
+  // Apply row permutation from pivoting
   const pb = P.map(i => b[i]);
 
-  // Forward substitution Ly = pb
+  // Forward substitution: Ly = pb
   const y = Array(n).fill(0);
   for (let i = 0; i < n; i++) {
     y[i] = pb[i];
@@ -150,7 +170,7 @@ function luSolve({ L, U, P }, b) {
       y[i] -= L[i][j] * y[j];
   }
 
-  // Back substitution Ux = y
+  // Back substitution: Ux = y
   const x = Array(n).fill(0);
   for (let i = n - 1; i >= 0; i--) {
     x[i] = y[i];
@@ -162,6 +182,6 @@ function luSolve({ L, U, P }, b) {
   return x;
 }
 
-// Run on load and on every resize
+// ─── Event listeners ─────────────────────────────────────────────────────────
 window.addEventListener('load', positionEmbed);
 window.addEventListener('resize', positionEmbed);
