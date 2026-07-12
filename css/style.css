@@ -91,6 +91,7 @@ main {
   font-size: 2.5vw;
   margin-bottom: 16px;
   filter: drop-shadow(0 0 8px rgba(192, 132, 252, 0.4));
+  text-decoration: none;
 }
 
 .intro .channel-sub {
