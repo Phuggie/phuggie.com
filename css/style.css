@@ -79,6 +79,7 @@ main {
   top: 30%;
   left: 3%;
   width: 22%;
+  text-decoration: none;
 }
 
 .intro h1 {
