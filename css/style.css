@@ -1,3 +1,16 @@
+:root {
+  --void:          #050008;
+  --purple-dark:   #1a0030;
+  --purple-mid:    #2d0060;
+  --purple-sat:    #6b21a8;
+  --purple-light:  #c084fc;
+  --purple-pale:   #e9d5ff;
+  --cyan-primary:  #06b6d4;
+  --cyan-soft:     #a5f3fc;
+  --cyan-glow:     rgba(6, 182, 212, 0.15);
+  --live:          #e879f9;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -5,7 +18,7 @@
 }
 
 body {
-  background-color: #0d0d0d;
+  background-color: var(--void);
   color: white;
   font-family: 'Segoe UI', sans-serif;
 }
@@ -20,13 +33,17 @@ nav {
 }
 
 nav a {
-  color: #c084fc;
+  color: var(--purple-light);
   text-decoration: none;
   font-weight: 600;
 }
 
 nav a:hover {
-  color: white;
+  color: var(--cyan-soft);
+}
+
+nav a.active {
+  color: var(--cyan-primary);
 }
 
 main {
@@ -76,8 +93,17 @@ main {
   filter: drop-shadow(0 0 8px rgba(192, 132, 252, 0.4));
 }
 
+.intro .channel-sub {
+  font-size: 0.9vw;
+  font-weight: 600;
+  color: var(--cyan-soft);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
 .intro p {
-  color: #e9d5ff;
+  color: (--purple-pale);
   font-size: 1vw;
   line-height: 1.7;
 }
