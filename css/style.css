@@ -79,7 +79,6 @@ main {
   top: 30%;
   left: 3%;
   width: 22%;
-  text-decoration: none;
 }
 
 .intro h1 {
@@ -92,7 +91,11 @@ main {
   font-size: 2.5vw;
   margin-bottom: 16px;
   filter: drop-shadow(0 0 8px rgba(192, 132, 252, 0.4));
+}
+
+.intro h1 a {
   text-decoration: none;
+  color: inherit;
 }
 
 .intro .channel-sub {
