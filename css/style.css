@@ -94,11 +94,20 @@ main {
 } */
 
 .intro h1 {
+  position: relative;
   display: inline-block;
-  color: #c084fc;
-  -webkit-text-fill-color: #c084fc;
   font-size: 2.5vw;
   margin-bottom: 8px;
+  color: transparent;
+}
+
+/* Bottom layer — 3D shadow, solid color so shadow renders */
+.intro h1::before {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #9333ea;
   text-shadow: 
     0 1px 0 #9333ea,
     0 2px 0 #7e22ce,
@@ -112,6 +121,21 @@ main {
     0 5px 10px rgba(6, 182, 212, 0.2),
     0 10px 10px rgba(109, 33, 168, 0.25),
     0 20px 20px rgba(6, 182, 212, 0.15);
+  z-index: 1;
+}
+
+/* Top layer — gradient fill, sits above the shadow layer */
+.intro h1::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: linear-gradient(135deg, #c084fc, #06b6d4);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  z-index: 2;
 }
 
 .intro h1 a {
