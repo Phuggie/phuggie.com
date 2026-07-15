@@ -3,7 +3,7 @@ const IMG_W = 6000;
 const IMG_H = 3375;
 
 //global var for showing if livestream is active
-const liveBroadcast = 0;
+let liveBroadcast = 0;
 
 //Pixel coordinates of the monitor in the home background image
 const CORNERS = {
@@ -80,13 +80,13 @@ async function updateTwitchEmbed() {
 function positionEmbed() {
   const hero   = document.querySelector('.hero');
   const embed  = document.querySelector('.twitchEmbed');
-  const iframe = '';
+  let iframe = '';
 
 
   if (liveBroadcast === 0) {
-    const iframe = document.querySelector('#vodEmbed');
+    iframe = document.querySelector('#vodEmbed');
   } else {
-    const iframe = document.querySelector('#liveEmbed');
+    iframe = document.querySelector('#liveEmbed');
   }
 
   // Guard — main.js runs on every page; skip if these elements don't exist
