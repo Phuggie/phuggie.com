@@ -160,6 +160,34 @@ main {
   line-height: 1.7;
 }
 
+.stream-info {
+  margin-top: 16px;
+}
+
+.stream-status {
+  font-size: 0.8vw;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 6px;
+}
+
+.stream-status.live    { color: #e879f9; }
+.stream-status.offline { color: #06b6d4; }
+
+.stream-title {
+  font-size: 1.1vw;
+  font-weight: 600;
+  color: #e9d5ff;
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+
+.stream-meta {
+  font-size: 0.85vw;
+  color: #a5f3fc;
+}
+
 footer {
   position: fixed;
   left: 0;
