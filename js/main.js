@@ -201,13 +201,6 @@ function typeWriter(element, text, speed = 80) {
   }, speed);
 }
 
-// Run on load — after positionEmbed so the page is ready
-window.addEventListener('load', () => {
-  positionEmbed();
-  const h1 = document.querySelector('.intro h1');
-  typeWriter(h1, 'twitch.tv/Phuggie', 80);
-});
-
 // ─── Supabase Edge Function URL ──────────────────────────────────────────────
 const SUPABASE_FUNCTION_URL = 'https://enltfgyhkwvrpvefpgkd.supabase.co/functions/v1/twitch-status';
 
@@ -265,6 +258,13 @@ async function updateTwitchEmbed() {
     if (vodEmbed)  vodEmbed.style.display  = 'none';
   }
 }
+
+// Run on load — after positionEmbed so the page is ready
+window.addEventListener('load', () => {
+  positionEmbed();
+  const h1 = document.querySelector('.intro h1');
+  typeWriter(h1, 'twitch.tv/Phuggie', 80);
+});
 
 // Run on load
 window.addEventListener('load', () => {
