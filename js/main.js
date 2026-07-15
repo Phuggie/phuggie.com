@@ -2,12 +2,76 @@
 const IMG_W = 6000;
 const IMG_H = 3375;
 
+//global var for showing if livestream is active
+const liveBroadcast = 0;
+
+//Pixel coordinates of the monitor in the home background image
 const CORNERS = {
   tl: { x: 2364, y: 1215 },
   tr: { x: 4073, y: 1192 },
   br: { x: 4070, y: 2010 },
   bl: { x: 2367, y: 2158 },
 };
+
+// ─── Supabase Edge Function URL ──────────────────────────────────────────────
+const SUPABASE_FUNCTION_URL = 'https://enltfgyhkwvrpvefpgkd.supabase.co/functions/v1/twitch-status';
+
+// ─── Twitch status + VOD switcher ────────────────────────────────────────────
+// Calls the Supabase Edge Function to check live status and get latest VOD
+// Switches the embed source and updates the info panel accordingly
+async function updateTwitchEmbed() {
+  const liveEmbed = document.querySelector('#liveEmbed');
+  const vodEmbed  = document.querySelector('#vodEmbed');
+  const infoPanel = document.querySelector('.stream-info');
+
+  // Guard — skip if elements don't exist (not on home page)
+  if (!liveEmbed || !vodEmbed) return;
+
+  try {
+    const res  = await fetch(SUPABASE_FUNCTION_URL);
+    const data = await res.json();
+
+    if (data.isLive) {
+      // Show live embed, hide VOD
+      liveEmbed.style.display = 'block';
+      vodEmbed.style.display  = 'none';
+      liveBroadcast = 1;
+
+      // Update info panel for live state
+      if (infoPanel) {
+        infoPanel.innerHTML = `
+          <div class="stream-status live">🔴 Live Now</div>
+          <div class="stream-title">${data.stream.title}</div>
+          <div class="stream-meta">${data.stream.game}</div>
+        `;
+      }
+
+    } else {
+      // Show VOD embed, hide live
+      liveEmbed.style.display = 'none';
+      vodEmbed.style.display  = 'block';
+      liveBroadcast = 0;
+
+      // Set VOD source dynamically — only set when needed to avoid loading on page start
+      vodEmbed.src = `https://player.twitch.tv/?video=${data.vod.id}&parent=phuggie.github.io`;
+
+      // Update info panel for offline state
+      if (infoPanel) {
+        infoPanel.innerHTML = `
+          <div class="stream-status offline">Last Stream</div>
+          <div class="stream-title">${data.vod.title}</div>
+          <div class="stream-meta">${data.vod.date}</div>
+        `;
+      }
+    }
+
+  } catch (error) {
+    // If API call fails, fall back to showing live embed
+    console.error('Twitch status check failed:', error);
+    if (liveEmbed) liveEmbed.style.display = 'block';
+    if (vodEmbed)  vodEmbed.style.display  = 'none';
+  }
+}
 
 // ─── Main positioning function ───────────────────────────────────────────────
 // Calculates how background-size:cover crops the hero image at the current
@@ -16,7 +80,13 @@ const CORNERS = {
 function positionEmbed() {
   const hero   = document.querySelector('.hero');
   const embed  = document.querySelector('.twitchEmbed');
-  const iframe = document.querySelector('#vodEmbed');
+
+  if (liveBroadcast === 0) {
+    const iframe = document.querySelector('#vodEmbed');
+  } else {
+    const iframe = document.querySelector('#liveEmbed');
+  }
+  
 
   // Guard — main.js runs on every page; skip if these elements don't exist
   if (!hero || !embed || !iframe) return;
@@ -199,64 +269,6 @@ function typeWriter(element, text, speed = 80) {
       clearInterval(interval); // stop when fully typed
     }
   }, speed);
-}
-
-// ─── Supabase Edge Function URL ──────────────────────────────────────────────
-const SUPABASE_FUNCTION_URL = 'https://enltfgyhkwvrpvefpgkd.supabase.co/functions/v1/twitch-status';
-
-// ─── Twitch status + VOD switcher ────────────────────────────────────────────
-// Calls the Supabase Edge Function to check live status and get latest VOD
-// Switches the embed source and updates the info panel accordingly
-async function updateTwitchEmbed() {
-  const liveEmbed = document.querySelector('#liveEmbed');
-  const vodEmbed  = document.querySelector('#vodEmbed');
-  const infoPanel = document.querySelector('.stream-info');
-
-  // Guard — skip if elements don't exist (not on home page)
-  if (!liveEmbed || !vodEmbed) return;
-
-  try {
-    const res  = await fetch(SUPABASE_FUNCTION_URL);
-    const data = await res.json();
-
-    if (data.isLive) {
-      // Show live embed, hide VOD
-      liveEmbed.style.display = 'block';
-      vodEmbed.style.display  = 'none';
-
-      // Update info panel for live state
-      if (infoPanel) {
-        infoPanel.innerHTML = `
-          <div class="stream-status live">🔴 Live Now</div>
-          <div class="stream-title">${data.stream.title}</div>
-          <div class="stream-meta">${data.stream.game}</div>
-        `;
-      }
-
-    } else {
-      // Show VOD embed, hide live
-      liveEmbed.style.display = 'none';
-      vodEmbed.style.display  = 'block';
-
-      // Set VOD source dynamically — only set when needed to avoid loading on page start
-      vodEmbed.src = `https://player.twitch.tv/?video=${data.vod.id}&parent=phuggie.github.io`;
-
-      // Update info panel for offline state
-      if (infoPanel) {
-        infoPanel.innerHTML = `
-          <div class="stream-status offline">Last Stream</div>
-          <div class="stream-title">${data.vod.title}</div>
-          <div class="stream-meta">${data.vod.date}</div>
-        `;
-      }
-    }
-
-  } catch (error) {
-    // If API call fails, fall back to showing live embed
-    console.error('Twitch status check failed:', error);
-    if (liveEmbed) liveEmbed.style.display = 'block';
-    if (vodEmbed)  vodEmbed.style.display  = 'none';
-  }
 }
 
 // Run on load — after positionEmbed so the page is ready
