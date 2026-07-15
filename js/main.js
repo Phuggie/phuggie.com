@@ -16,7 +16,7 @@ const CORNERS = {
 function positionEmbed() {
   const hero   = document.querySelector('.hero');
   const embed  = document.querySelector('.twitchEmbed');
-  const iframe = document.querySelector('.twitchEmbed iframe');
+  const iframe = document.querySelector('#vodEmbed');
 
   // Guard — main.js runs on every page; skip if these elements don't exist
   if (!hero || !embed || !iframe) return;
