@@ -67,6 +67,6 @@ function initSocialMenu() {
 
 // ─── Shared page init ─────────────────────────────────────────────────────
 window.addEventListener('load', () => {
-  initSocialMenu();
   positionDropdown();
+  initSocialMenu();
 });
