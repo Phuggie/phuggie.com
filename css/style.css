@@ -68,6 +68,7 @@ main {
 }
 
 #liveEmbed {
+  position: absolute;
   width: 100%;
   height: 100%;
   border: none;
@@ -75,6 +76,7 @@ main {
 }
 
 #vodEmbed {
+  position: absolute;
   width: 100%;
   height: 100%;
   border: none;
@@ -150,7 +152,7 @@ main {
 }
 
 .intro p {
-  color: (--purple-pale);
+  color: var(--purple-pale);
   font-size: 1vw;
   line-height: 1.7;
 }
@@ -161,7 +163,6 @@ main {
 
 .stream-info-link {
   text-decoration: none;
-  visibility: hidden;
   cursor: pointer;
 }
 
