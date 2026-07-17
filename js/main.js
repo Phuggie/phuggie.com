@@ -4,16 +4,16 @@ const IMG_H = 3375;
 
 //Pixel coordinates of the location where the dropdown should be
 const CORNERS = {
-  tl: { x: 4709, y: 0 },
-  tr: { x: 6000, y: 0 },
-  br: { x: 6000, y: 1640 },
+  tl: { x: 4709, y: 14 },
+  tr: { x: 5999, y: 14 },
+  br: { x: 5999, y: 1640 },
   bl: { x: 4709, y: 1640 },
 };
 
 //Automatically positions and resizes the dropdown to match a verticle line on the home background image
 function positionDropdown() {
-  const hero      = document.querySelector('.hero');
-  const dropdown     = document.querySelector('.social-dropdown');
+  const hero     = document.querySelector('.hero');
+  const dropdown = document.querySelector('.social-dropdown');
 
   if (!hero || !dropdown) return;
 
