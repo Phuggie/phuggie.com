@@ -40,9 +40,11 @@ async function updateTwitchEmbed() {
       // Update info panel for live state
       if (infoPanel) {
         infoPanel.innerHTML = `
-          <div class="stream-status live">🔴 Live Now</div>
-          <div class="stream-title"><a href="https://www.twitch.tv/phuggie">${data.stream.title}</a></div>
-          <div class="stream-meta">${data.stream.game}</div>
+          <a href="https://www.twitch.tv/phuggie" target="_blank" class="stream-info-link">
+            <div class="stream-status live">🔴 Live Now</div>
+            <div class="stream-title">${data.stream.title}</div>
+            <div class="stream-meta">${data.stream.game}</div>
+          </a>
         `;
       }
 
