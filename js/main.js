@@ -9,8 +9,6 @@ function initSocialMenu() {
   // Toggle open/closed on button click
   toggle.addEventListener('click', (e) => {
     e.stopPropagation();
-    // stopPropagation prevents the click from immediately
-    // triggering the document click listener below
     dropdown.classList.toggle('open');
   });
 
@@ -20,14 +18,7 @@ function initSocialMenu() {
   });
 }
 
-// Add initSocialMenu() to your load listener
-window.addEventListener('load', () => {
-  positionEmbed();
-  updateTwitchEmbed();
-  typeWriter(document.querySelector('.intro h1'), 'twitch.tv/Phuggie', 80);
-  initSocialMenu();
-});
-
+// ─── Shared page init ─────────────────────────────────────────────────────
 window.addEventListener('load', () => {
   initSocialMenu();
 });
