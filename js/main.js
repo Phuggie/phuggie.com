@@ -49,7 +49,7 @@ function positionDropdown() {
 // Opens and closes the social links hamburger menu
 function initSocialMenu() {
   const toggle   = document.getElementById('socialToggle');
-  const dropdown = document.getElementById('socialDropdown');
+  const dropdown = document.querySelector('.social-dropdown');
 
   if (!toggle || !dropdown) return;
 
