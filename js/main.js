@@ -2,9 +2,6 @@
 const IMG_W = 6000;
 const IMG_H = 3375;
 
-//global var for showing if livestream is active
-let liveBroadcast = 0;
-
 //Pixel coordinates of the monitor in the home background image
 const CORNERS = {
   tl: { x: 2364, y: 1215 },
@@ -82,29 +79,20 @@ async function updateTwitchEmbed() {
 // window size, maps the monitor corners to screen coordinates, then applies
 // a perspective-correct matrix3d transform to the Twitch embed iframe.
 function positionEmbed() {
-  const hero   = document.querySelector('.hero');
-  const embed  = document.querySelector('.twitchEmbed');
-  let iframe = '';
+  const hero      = document.querySelector('.hero');
+  const embed     = document.querySelector('.twitchEmbed');
+  const liveFrame = document.querySelector('#liveEmbed');
+  const vodFrame  = document.querySelector('#vodEmbed');
 
-
-  if (liveBroadcast === 0) {
-    iframe = document.querySelector('#vodEmbed');
-  } else {
-    iframe = document.querySelector('#liveEmbed');
-  }
-
-  // Guard — main.js runs on every page; skip if these elements don't exist
-  if (!hero || !embed || !iframe) return;
+  if (!hero || !embed || !liveFrame || !vodFrame) return;
 
   const heroW = hero.offsetWidth;
   const heroH = hero.offsetHeight;
 
-  // Calculate how background-size:cover scales and crops the image
   const scale   = Math.max(heroW / IMG_W, heroH / IMG_H);
   const offsetX = (IMG_W * scale - heroW) / 2;
   const offsetY = (IMG_H * scale - heroH) / 2;
 
-  // Convert original image corners to screen pixel coordinates
   function toScreen(px, py) {
     return {
       x: px * scale - offsetX,
@@ -117,7 +105,6 @@ function positionEmbed() {
   const br = toScreen(CORNERS.br.x, CORNERS.br.y);
   const bl = toScreen(CORNERS.bl.x, CORNERS.bl.y);
 
-  // Size and position the container using tl anchor and top/left edges
   const w = tr.x - tl.x;
   const h = bl.y - tl.y;
 
@@ -126,8 +113,6 @@ function positionEmbed() {
   embed.style.width  = w + 'px';
   embed.style.height = h + 'px';
 
-  // Source rectangle corners (flat iframe) and destination trapezoid corners
-  // (actual monitor screen shape) relative to tl anchor
   const src = [[0,0],[w,0],[w,h],[0,h]];
   const dst = [
     [0,            0           ],
@@ -138,15 +123,18 @@ function positionEmbed() {
 
   const H = solveHomography(src, dst);
 
-  // CSS matrix3d is column-major — map 3x3 homography to 4x4
-  // H indices: [0]=a [1]=b [2]=c [3]=d [4]=e [5]=f [6]=g [7]=h [8]=i
-  iframe.style.transformOrigin = '0 0';
-  iframe.style.transform = `matrix3d(
+  const matrix = `matrix3d(
     ${H[0]}, ${H[3]}, 0, ${H[6]},
     ${H[1]}, ${H[4]}, 0, ${H[7]},
     0,       0,       1, 0,
     ${H[2]}, ${H[5]}, 0, ${H[8]}
   )`;
+
+  // Apply transform to BOTH iframes so whichever is visible is always correct
+  liveFrame.style.transformOrigin = '0 0';
+  liveFrame.style.transform = matrix;
+  vodFrame.style.transformOrigin = '0 0';
+  vodFrame.style.transform = matrix;
 }
 
 // ─── Homography solver ───────────────────────────────────────────────────────
@@ -276,20 +264,10 @@ function typeWriter(element, text, speed = 80) {
   }, speed);
 }
 
-// Run on load — after positionEmbed so the page is ready
-window.addEventListener('load', () => {
-  positionEmbed();
-  const h1 = document.querySelector('.intro h1');
-  typeWriter(h1, 'twitch.tv/Phuggie', 80);
-});
-
-// Run on load
 window.addEventListener('load', () => {
   positionEmbed();
   updateTwitchEmbed();
   typeWriter(document.querySelector('.intro h1'), 'twitch.tv/Phuggie', 80);
 });
 
-// ─── Event listeners ─────────────────────────────────────────────────────────
-window.addEventListener('load', positionEmbed);
 window.addEventListener('resize', positionEmbed);
