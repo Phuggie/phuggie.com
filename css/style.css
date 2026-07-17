@@ -46,6 +46,87 @@ nav a.active {
   color: var(--cyan-primary);
 }
 
+/* Social menu container — sits at far right of nav */
+.social-menu {
+  position: relative;
+  margin-left: auto;
+}
+
+/* Hamburger button */
+.social-toggle {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 22px;
+  height: 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* The three lines */
+.social-toggle span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: var(--purple-light);
+  border-radius: 2px;
+  transition: background 0.2s;
+}
+
+.social-toggle:hover span {
+  background: var(--cyan-soft);
+}
+
+/* Dropdown panel — hidden by default */
+.social-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  background: linear-gradient(135deg, #1a0030, #2d0060);
+  border: 1px solid rgba(192, 132, 252, 0.2);
+  border-radius: 10px;
+  padding: 8px 0;
+  min-width: 160px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 20px rgba(192, 132, 252, 0.1);
+  z-index: 100;
+}
+
+/* Show dropdown when open class is applied */
+.social-dropdown.open {
+  display: block;
+}
+
+/* Individual social links */
+.social-dropdown a {
+  display: block;
+  padding: 10px 20px;
+  color: var(--purple-light);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: color 0.2s, background 0.2s;
+}
+
+.social-dropdown a:hover {
+  color: var(--cyan-soft);
+  background: rgba(192, 132, 252, 0.08);
+}
+
+/* Top border accent line on dropdown */
+.social-dropdown::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #c084fc, transparent);
+  border-radius: 10px 10px 0 0;
+}
+
 main {
   padding: 0;
 }
