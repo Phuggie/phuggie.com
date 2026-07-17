@@ -159,6 +159,17 @@ main {
   margin-top: 16px;
 }
 
+.stream-info-link {
+  text-decoration: none;
+  display: block;
+  cursor: pointer;
+}
+
+.stream-info-link:hover .stream-title {
+  color: #06b6d4;
+  transition: color 0.2s;
+}
+
 .stream-status {
   font-size: 0.8vw;
   font-weight: 700;

@@ -60,9 +60,11 @@ async function updateTwitchEmbed() {
       // Update info panel for offline state
       if (infoPanel) {
         infoPanel.innerHTML = `
-          <div class="stream-status offline">Last Stream</div>
-          <div class="stream-title">${data.vod.title}</div>
-          <div class="stream-meta">${data.vod.date}</div>
+          <a href="https://www.twitch.tv/phuggie" target="_blank" class="stream-info-link">
+            <div class="stream-status offline">Last Stream</div>
+            <div class="stream-title">${data.vod.title}</div>
+            <div class="stream-meta">${data.vod.date}</div>
+          </a>
         `;
       }
     }
