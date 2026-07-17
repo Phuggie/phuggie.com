@@ -67,7 +67,7 @@ nav a.active {
 
 /* The three lines */
 .social-toggle span {
-  display: block;
+  visibility: initial;
   width: 100%;
   height: 2px;
   background: var(--purple-light);
@@ -81,7 +81,7 @@ nav a.active {
 
 /* Dropdown panel — hidden by default */
 .social-dropdown {
-  display: none;
+  visibility: hidden;
   position: absolute;
   top: calc(100% + 12px);
   right: 0;
@@ -96,12 +96,12 @@ nav a.active {
 
 /* Show dropdown when open class is applied */
 .social-dropdown.open {
-  display: block;
+  visibility: initial;
 }
 
 /* Individual social links */
 .social-dropdown a {
-  display: block;
+  visibility: initial;
   padding: 10px 20px;
   color: var(--purple-light);
   text-decoration: none;
