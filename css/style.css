@@ -83,7 +83,6 @@ nav a.active {
 .social-dropdown {
   visibility: hidden;
   position: absolute;
-  transform-origin: 0 0;
   background: linear-gradient(135deg, #1a0030, #2d0060);
   border: 1px solid rgba(192, 132, 252, 0.2);
   border-radius: 10px;
