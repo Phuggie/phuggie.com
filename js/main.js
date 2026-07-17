@@ -33,8 +33,8 @@ async function updateTwitchEmbed() {
 
     if (data.isLive) {
       // Show live embed, hide VOD
-      liveEmbed.style.display = 'block';
-      vodEmbed.style.display  = 'none';
+      liveEmbed.style.visibility = 'initial';
+      vodEmbed.style.visibility  = 'hidden';
       liveBroadcast = 1;
 
       // Update info panel for live state
@@ -50,8 +50,8 @@ async function updateTwitchEmbed() {
 
     } else {
       // Show VOD embed, hide live
-      liveEmbed.style.display = 'none';
-      vodEmbed.style.display  = 'block';
+      liveEmbed.style.visibility = 'hidden';
+      vodEmbed.style.visibility  = 'initial';
       liveBroadcast = 0;
 
       // Set VOD source dynamically — only set when needed to avoid loading on page start
@@ -72,8 +72,8 @@ async function updateTwitchEmbed() {
   } catch (error) {
     // If API call fails, fall back to showing live embed
     console.error('Twitch status check failed:', error);
-    if (liveEmbed) liveEmbed.style.display = 'block';
-    if (vodEmbed)  vodEmbed.style.display  = 'none';
+    if (liveEmbed) liveEmbed.style.visibility = 'initial';
+    if (vodEmbed)  vodEmbed.style.visibility  = 'hidden';
   }
 }
 

@@ -161,7 +161,7 @@ main {
 
 .stream-info-link {
   text-decoration: none;
-  display: block;
+  visibility: hidden;
   cursor: pointer;
 }
 
