@@ -40,7 +40,7 @@ function positionDropdown() {
   dropdown.style.width    = w + 'px';
   // Scale font size relative to dropdown height
   // Dividing by 10 gives a comfortable ratio — adjust the divisor to taste
-  const fontSize = h / 10;
+  const fontSize = h / 14;
   dropdown.style.fontSize = fontSize + 'px';
 }
 
