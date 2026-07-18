@@ -64,9 +64,68 @@ function initSocialMenu() {
   });
 }
 
+// ─── Complaints button — runs away from cursor ────────────────────────────
+function initComplaintsButton() {
+  const btn = document.getElementById('complaintsBtn');
+  if (!btn) return;
+
+  // Starting position — bottom left area of the screen
+  let btnX = 40;
+  let btnY = window.innerHeight - 100;
+
+  // Set initial position
+  btn.style.left = btnX + 'px';
+  btn.style.top  = btnY + 'px';
+
+  document.addEventListener('mousemove', (e) => {
+    const mouseX = e.clientX;
+    const mouseY = e.clientY;
+
+    const btnRect   = btn.getBoundingClientRect();
+    const btnCenterX = btnRect.left + btnRect.width  / 2;
+    const btnCenterY = btnRect.top  + btnRect.height / 2;
+
+    // Distance between cursor and button center
+    const dx = btnCenterX - mouseX;
+    const dy = btnCenterY - mouseY;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    // Only flee when cursor is within 200px
+    const fleeRadius = 200;
+
+    if (distance < fleeRadius) {
+      // Calculate flee direction — away from cursor
+      // Normalize the direction vector then scale by flee speed
+      const fleeSpeed = (fleeRadius - distance) / fleeRadius * 18;
+      const normX = dx / distance;
+      const normY = dy / distance;
+
+      btnX += normX * fleeSpeed;
+      btnY += normY * fleeSpeed;
+
+      // Keep button within viewport bounds
+      const margin = 10;
+      btnX = Math.max(margin, Math.min(window.innerWidth  - btnRect.width  - margin, btnX));
+      btnY = Math.max(margin, Math.min(window.innerHeight - btnRect.height - margin, btnY));
+
+      btn.style.left = btnX + 'px';
+      btn.style.top  = btnY + 'px';
+    }
+  });
+
+  // If button gets cornered — teleport to opposite side
+  btn.addEventListener('mouseenter', () => {
+    btnX = window.innerWidth  - 150;
+    btnY = window.innerHeight - 100;
+    btn.style.left = btnX + 'px';
+    btn.style.top  = btnY + 'px';
+  });
+}
+
 window.addEventListener('load', () => {
   positionDropdown();
   initSocialMenu();
+  initComplaintsButton();
 });
 
 window.addEventListener('resize', () => {
