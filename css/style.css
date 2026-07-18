@@ -46,76 +46,113 @@ nav a.active {
   color: var(--cyan-primary);
 }
 
-/* Social menu container — sits at far right of nav */
+/* ── Social menu ── */
 .social-menu {
-  position: relative;
   margin-left: auto;
+  position: relative;
 }
 
-/* Hamburger button */
+/* Button layout — label + hamburger lines side by side */
 .social-toggle {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 22px;
-  height: 16px;
+  align-items: center;
+  gap: 10px;
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.2s;
 }
 
-/* The three lines */
-.social-toggle span {
-  visibility: initial;
+.social-toggle:hover {
+  background: rgba(192, 132, 252, 0.08);
+}
+
+.toggle-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--purple-light);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  transition: color 0.2s;
+  white-space: nowrap;
+}
+
+.social-toggle:hover .toggle-label,
+.social-toggle.is-open .toggle-label {
+  color: var(--cyan-soft);
+}
+
+/* Hamburger lines container */
+.hamburger-lines {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 20px;
+  height: 14px;
+  position: relative;
+}
+
+.hamburger-lines span {
+  display: block;
   width: 100%;
   height: 2px;
   background: var(--purple-light);
   border-radius: 2px;
-  transition: background 0.2s;
+  transition: transform 0.3s ease, opacity 0.3s ease, background 0.2s;
+  transform-origin: center;
+  position: absolute;
 }
 
-.social-toggle:hover span {
+.hamburger-lines span:nth-child(1) { top: 0; }
+.hamburger-lines span:nth-child(2) { top: 50%; transform: translateY(-50%); }
+.hamburger-lines span:nth-child(3) { bottom: 0; }
+
+/* Animate to X when open */
+.social-toggle.is-open .hamburger-lines span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+  background: var(--cyan-soft);
+}
+.social-toggle.is-open .hamburger-lines span:nth-child(2) {
+  opacity: 0;
+}
+.social-toggle.is-open .hamburger-lines span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
   background: var(--cyan-soft);
 }
 
-/* Dropdown panel — hidden by default */
+.social-toggle:hover .hamburger-lines span {
+  background: var(--cyan-soft);
+}
+
+/* Dropdown panel — dark glass effect */
 .social-dropdown {
-  visibility: hidden;
-  position: absolute;
-  background: linear-gradient(135deg, #1a0030, #2d0060);
-  border: 1px solid rgba(192, 132, 252, 0.2);
-  border-radius: 10px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 20px rgba(192, 132, 252, 0.1);
+  position: fixed;
+  top: 60px;
+  right: 0;
+  background: rgba(10, 0, 20, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(192, 132, 252, 0.15);
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+  padding: 8px 0;
   z-index: 100;
+  overflow: hidden;
+
+  /* Hidden state */
+  max-height: 0;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-8px);
+  transition:
+    max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity    0.3s ease,
+    transform  0.3s ease;
 }
 
-/* Show dropdown when open class is applied */
-.social-dropdown.open {
-  visibility: initial;
-}
-
-.social-dropdown.open .social-dropdown a {
-  visibility: initial;
-}
-
-/* Individual social links */
-.social-dropdown a {
-  visibility: hidden;
-  padding: 10px 20px;
-  color: var(--purple-light);
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 600;
-  transition: color 0.2s, background 0.2s;
-}
-
-.social-dropdown a:hover {
-  color: var(--cyan-soft);
-  background: rgba(192, 132, 252, 0.08);
-}
-
-/* Top border accent line on dropdown */
+/* Top accent line */
 .social-dropdown::before {
   content: '';
   position: absolute;
@@ -123,8 +160,39 @@ nav a.active {
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, #c084fc, transparent);
-  border-radius: 10px 10px 0 0;
+  background: linear-gradient(90deg, transparent, rgba(192,132,252,0.4), transparent);
+}
+
+/* Open state — animated slide down */
+.social-dropdown.open {
+  max-height: 400px;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+/* Social links */
+.social-dropdown a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 24px;
+  color: var(--purple-pale);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.2s, background 0.2s, padding-left 0.2s;
+}
+
+.social-dropdown a:hover {
+  color: var(--cyan-soft);
+  background: rgba(192, 132, 252, 0.06);
+  padding-left: 30px;
+}
+
+/* Icon color shift on hover */
+.social-dropdown a:hover img {
+  filter: brightness(0) saturate(100%) invert(85%) sepia(30%) saturate(400%) hue-rotate(160deg);
 }
 
 main {

@@ -1,16 +1,13 @@
-//Background image dimensions
 const IMG_W = 6000;
 const IMG_H = 3375;
 
-//Pixel coordinates of the location where the dropdown should be
-const CORNERS = {
+const DROPDOWN_CORNERS = {
   tl: { x: 4709, y: 14 },
   tr: { x: 5999, y: 14 },
   br: { x: 5999, y: 1640 },
   bl: { x: 4709, y: 1640 },
 };
 
-//Automatically positions and resizes the dropdown to match a verticle line on the home background image
 function positionDropdown() {
   const hero     = document.querySelector('.hero');
   const dropdown = document.querySelector('.social-dropdown');
@@ -31,42 +28,44 @@ function positionDropdown() {
     };
   }
 
-  const tl = toScreen(CORNERS.tl.x, CORNERS.tl.y);
-  const tr = toScreen(CORNERS.tr.x, CORNERS.tr.y);
-  const br = toScreen(CORNERS.br.x, CORNERS.br.y);
-  const bl = toScreen(CORNERS.bl.x, CORNERS.bl.y);
+  const tl = toScreen(DROPDOWN_CORNERS.tl.x, DROPDOWN_CORNERS.tl.y);
+  const tr = toScreen(DROPDOWN_CORNERS.tr.x, DROPDOWN_CORNERS.tr.y);
+  const br = toScreen(DROPDOWN_CORNERS.br.x, DROPDOWN_CORNERS.br.y);
+  const bl = toScreen(DROPDOWN_CORNERS.bl.x, DROPDOWN_CORNERS.bl.y);
 
   const w = tr.x - tl.x;
   const h = bl.y - tl.y;
 
-  dropdown.style.left   = tl.x + 'px';
-  dropdown.style.top    = tl.y + 'px';
-  dropdown.style.width  = w + 'px';
-  dropdown.style.height = h + 'px';
+  // Position relative to viewport, accounting for nav height
+  dropdown.style.position = 'fixed';
+  dropdown.style.right    = (heroW - tr.x) + 'px';
+  dropdown.style.top      = '60px'; // sits just below nav
+  dropdown.style.width    = w + 'px';
+  dropdown.style.height   = h + 'px';
 }
 
-// ─── Social dropdown toggle ───────────────────────────────────────────────
-// Opens and closes the social links hamburger menu
 function initSocialMenu() {
   const toggle   = document.getElementById('socialToggle');
   const dropdown = document.querySelector('.social-dropdown');
 
   if (!toggle || !dropdown) return;
 
-  // Toggle open/closed on button click
   toggle.addEventListener('click', (e) => {
     e.stopPropagation();
-    dropdown.classList.toggle('open');
+    const isOpen = dropdown.classList.toggle('open');
+    // Animate hamburger to X
+    toggle.classList.toggle('is-open', isOpen);
   });
 
-  // Close dropdown when clicking anywhere else on the page
   document.addEventListener('click', () => {
     dropdown.classList.remove('open');
+    toggle.classList.remove('is-open');
   });
 }
 
-// ─── Shared page init ─────────────────────────────────────────────────────
 window.addEventListener('load', () => {
   positionDropdown();
   initSocialMenu();
 });
+
+window.addEventListener('resize', positionDropdown);
