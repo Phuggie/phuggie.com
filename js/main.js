@@ -91,7 +91,7 @@ function initComplaintsButton() {
     const distance = Math.sqrt(dx * dx + dy * dy);
 
     // Only flee when cursor is within 200px
-    const fleeRadius = 200;
+    const fleeRadius = 100;
 
     if (distance < fleeRadius) {
       // Calculate flee direction — away from cursor
