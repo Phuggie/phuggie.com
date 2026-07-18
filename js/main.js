@@ -70,8 +70,8 @@ function initComplaintsButton() {
   if (!btn) return;
 
   // Starting position — bottom left area of the screen
-  let btnX = 40;
-  let btnY = window.innerHeight - 100;
+  let btnX = window.innerWidth / 2;
+  let btnY = 15
 
   // Set initial position
   btn.style.left = btnX + 'px';
