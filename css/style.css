@@ -175,11 +175,11 @@ nav a.active {
 .social-dropdown a {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 24px;
+  gap: 0.8em;
+  padding: 0.6em 1.5em;
   color: var(--purple-pale);
   text-decoration: none;
-  font-size: 14px;
+  font-size: 1em;
   font-weight: 500;
   transition: color 0.2s, background 0.2s, padding-left 0.2s;
 }
@@ -187,12 +187,13 @@ nav a.active {
 .social-dropdown a:hover {
   color: var(--cyan-soft);
   background: rgba(192, 132, 252, 0.06);
-  padding-left: 30px;
+  padding-left: 1.8em;
 }
 
-/* Icon color shift on hover */
-.social-dropdown a:hover img {
-  filter: brightness(0) saturate(100%) invert(85%) sepia(30%) saturate(400%) hue-rotate(160deg);
+/* Scale icons with text */
+.social-dropdown a img {
+  width: 1.2em;
+  height: 1.2em;
 }
 
 main {

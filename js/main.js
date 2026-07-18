@@ -41,6 +41,12 @@ function positionDropdown() {
   dropdown.style.height   = h + 'px';
 }
 
+// Scale font size relative to dropdown height
+// Dividing by 10 gives a comfortable ratio — adjust the divisor to taste
+const fontSize = h / 10;
+dropdown.style.fontSize = fontSize + 'px';
+dropdown.style.setProperty('--dropdown-gap', (fontSize * 0.8) + 'px');
+
 function initSocialMenu() {
   const toggle   = document.getElementById('socialToggle');
   const dropdown = document.querySelector('.social-dropdown');
@@ -65,4 +71,6 @@ window.addEventListener('load', () => {
   initSocialMenu();
 });
 
-window.addEventListener('resize', positionDropdown);
+window.addEventListener('resize', () => {
+  positionDropdown();
+});
