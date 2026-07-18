@@ -1,6 +1,3 @@
-const IMG_W = 6000;
-const IMG_H = 3375;
-
 const DROPDOWN_CORNERS = {
   tl: { x: 4709, y: 14 },
   tr: { x: 5999, y: 14 },
