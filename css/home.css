@@ -1,0 +1,168 @@
+main {
+  padding: 0;
+}
+
+/* Hero section — full viewport height, positions the embed over the photo */
+.hero {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 60px);
+  background-image: url('../assets/HomeBackground.jpg');
+  background-size: cover;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+.twitchEmbed {
+  position: absolute;
+  transform-origin: 0 0;
+}
+
+#liveEmbed {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: none;
+  transform-origin: 0 0;
+}
+
+#vodEmbed {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: none;
+  transform-origin: 0 0;
+}
+
+.intro {
+  position: absolute;
+  top: 30%;
+  left: 3%;
+  width: 22%;
+}
+
+.intro h1 {
+  position: relative;
+  display: inline-block;
+  font-size: 2.5vw;
+  margin-bottom: 8px;
+  color: transparent;
+}
+
+/* Bottom layer — 3D shadow, solid color so shadow renders */
+.intro h1::before {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #9333ea;
+  text-shadow: 
+    0 1px 0 #9333ea,
+    0 2px 0 #7e22ce,
+    0 3px 0 #6b21a8,
+    0 4px 0 #581c87,
+    0 5px 0 #4c1d95,
+    0 6px 1px rgba(6, 182, 212, 0.15),
+    0 0 8px rgba(192, 132, 252, 0.3),
+    0 1px 3px rgba(6, 182, 212, 0.2),
+    0 3px 5px rgba(109, 33, 168, 0.3),
+    0 5px 10px rgba(6, 182, 212, 0.2),
+    0 10px 10px rgba(109, 33, 168, 0.25),
+    0 20px 20px rgba(6, 182, 212, 0.15);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Top layer — gradient fill, sits above the shadow layer */
+.intro h1::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: linear-gradient(137deg, #4c1d95, #7c3aed, #c084fc, #e9d5ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.intro h1 a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.intro .channel-sub {
+  font-size: 0.9vw;
+  font-weight: 600;
+  color: var(--cyan-soft);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+.intro p {
+  color: var(--purple-pale);
+  font-size: 1vw;
+  line-height: 1.7;
+}
+
+.stream-info {
+  margin-top: 16px;
+}
+
+.stream-info-link {
+  text-decoration: none;
+  visibility: initial;
+  cursor: pointer;
+}
+
+.stream-info-link:hover .stream-title {
+  color: #06b6d4;
+  transition: color 0.2s;
+}
+
+.stream-status {
+  font-size: 0.8vw;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 6px;
+}
+
+.stream-status.live    { color: #e879f9; }
+.stream-status.offline { color: #06b6d4; }
+
+.stream-title {
+  font-size: 1.1vw;
+  font-weight: 600;
+  color: #e9d5ff;
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+
+.stream-meta {
+  font-size: 0.85vw;
+  color: #a5f3fc;
+}
+
+.complaints-btn {
+  background: none;
+  border: none;
+  color: var(--purple-light);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Segoe UI', sans-serif;
+  padding: 0;
+  z-index: 50;
+  user-select: none;
+  pointer-events: auto;
+  /* No position: fixed here — JS adds it when cursor gets close */
+}
+
+.complaints-btn:hover {
+  color: var(--cyan-soft);
+}

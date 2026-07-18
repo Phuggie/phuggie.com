@@ -1,0 +1,35 @@
+:root {
+  --void:          #050008;
+  --purple-dark:   #1a0030;
+  --purple-mid:    #2d0060;
+  --purple-sat:    #6b21a8;
+  --purple-light:  #c084fc;
+  --purple-pale:   #e9d5ff;
+  --cyan-primary:  #06b6d4;
+  --cyan-soft:     #a5f3fc;
+  --cyan-glow:     rgba(6, 182, 212, 0.15);
+  --live:          #e879f9;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--void);
+  color: white;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  padding: 20px;
+  color: #6b21a8;
+  font-size: 14px;
+}
