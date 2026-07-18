@@ -165,7 +165,7 @@ nav a.active {
 
 /* Open state — animated slide down */
 .social-dropdown.open {
-  max-height: 400px;
+  max-height: 600px;
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0);
@@ -313,6 +313,7 @@ main {
 
 .stream-info-link {
   text-decoration: none;
+  visibility: initial;
   cursor: pointer;
 }
 
