@@ -347,18 +347,18 @@ main {
 }
 
 .complaints-btn {
-  position: fixed;
   background: none;
   border: none;
   color: var(--purple-light);
   font-size: 14px;
   font-weight: 600;
-  cursor: none;
+  cursor: pointer;
   font-family: 'Segoe UI', sans-serif;
   padding: 0;
   z-index: 50;
   user-select: none;
   pointer-events: auto;
+  /* No position: fixed here — JS adds it when cursor gets close */
 }
 
 .complaints-btn:hover {
