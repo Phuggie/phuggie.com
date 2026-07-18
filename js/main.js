@@ -39,8 +39,7 @@ function positionDropdown() {
   dropdown.style.top      = '60px'; // sits just below nav
   dropdown.style.width    = w + 'px';
   // Scale font size relative to dropdown height
-  // Dividing by 10 gives a comfortable ratio — adjust the divisor to taste
-  const fontSize = h / 14;
+  const fontSize = (w*h) / 200;
   dropdown.style.fontSize = fontSize + 'px';
 }
 
