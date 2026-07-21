@@ -1,53 +1,5 @@
-// Follow this setup guide to integrate the Deno language server with your editor:
-// https://deno.land/manual/getting_started/setup_your_environment
-// This enables autocomplete, go to definition, etc.
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
-// Setup type definitions for built-in Supabase Runtime APIs
-import "@supabase/functions-js/edge-runtime.d.ts";
-import { withSupabase } from "@supabase/server";
-
-console.log("Hello from Functions!");
-
-// This endpoint uses 'publishable' | 'secret' access, apiKey is required.
-// Use publishable for Client-facing, key-validated endpoints
-// Use secret for Server-to-server, internal calls
-export default {
-  fetch: withSupabase({ auth: ["publishable", "secret"] }, async (req, ctx) => {
-    // Called by another service with a secret key
-    // ctx.supabaseAdmin bypasses RLS — use for privileged operations
-    /*
-    if (ctx.authMode === "secret") {
-      const { user_id } = await req.json();
-      const { data } = await ctx.supabaseAdmin.auth.admin.getUserById(user_id);
-
-      return Response.json({
-        email: data?.user?.email,
-      });
-    }
-    */
-
-    const { name } = await req.json();
-
-    return Response.json({
-      message: `Hello ${name}!`,
-    });
-  }),
-};
-
-/* To invoke locally:
-
-  1. Run `supabase start` (see: https://supabase.com/docs/reference/cli/supabase-start)
-  2. Make an HTTP request:
-
-  curl -i --location --request POST 'http://127.0.0.1:54321/functions/v1/twitch-status' \
-    --header 'apiKey: sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH' \
-    --data '{"name":"Functions"}'
-
-*/
-// supabase/functions/twitch-status/index.ts
-
-// CORS headers — required for browser requests to this function
-// Must be included in every response including errors and OPTIONS preflight
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
@@ -56,88 +8,124 @@ const corsHeaders = {
 
 Deno.serve(async (req: Request) => {
 
-  // Handle CORS preflight request — browser sends this before the real request
-  // Must be handled first or browser blocks the actual request entirely
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders });
   }
 
   try {
-    // Read Twitch credentials from Supabase secrets
-    // These are never visible in code or GitHub — only accessible here on the server
     const clientId     = Deno.env.get('TWITCH_CLIENT_ID')!;
     const clientSecret = Deno.env.get('TWITCH_CLIENT_SECRET')!;
     const userId       = Deno.env.get('TWITCH_USER_ID')!;
+    const supabaseUrl  = Deno.env.get('SUPABASE_URL')!;
+    const supabaseKey  = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 
-    // Step 1: Get a temporary app access token from Twitch
-    // client_credentials grant = server-to-server auth, no user login needed
+    // Supabase client — service role bypasses RLS
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    // ── Get Twitch access token ───────────────────────────────────────────
     const tokenRes = await fetch('https://id.twitch.tv/oauth2/token', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: `client_id=${clientId}&client_secret=${clientSecret}&grant_type=client_credentials`,
     });
-
-    if (!tokenRes.ok) {
-      throw new Error(`Twitch token request failed: ${tokenRes.status}`);
-    }
-
+    if (!tokenRes.ok) throw new Error(`Token request failed: ${tokenRes.status}`);
     const { access_token } = await tokenRes.json();
 
-    // Shared headers for all Twitch API calls
     const twitchHeaders = {
       'Client-ID': clientId,
       'Authorization': `Bearer ${access_token}`,
     };
 
-    // Step 2: Check if channel is currently live
-    // Returns data array with stream info if live, empty array if offline
+    // ── Check if live ─────────────────────────────────────────────────────
     const streamRes = await fetch(
       'https://api.twitch.tv/helix/streams?user_login=phuggie',
       { headers: twitchHeaders }
     );
-
-    if (!streamRes.ok) {
-      throw new Error(`Twitch streams request failed: ${streamRes.status}`);
-    }
-
+    if (!streamRes.ok) throw new Error(`Streams request failed: ${streamRes.status}`);
     const streamData = await streamRes.json();
     const isLive     = streamData.data.length > 0;
     const stream     = isLive ? streamData.data[0] : null;
 
-    // Step 3: Get the latest VOD (past broadcast)
-    // type=archive = full past broadcasts only, not highlights or uploads
-    // first=1 = only return the single most recent one
+    // ── If live, get game art and upsert to stream_history ───────────────
+    let streamGameArt = null;
+
+    if (stream) {
+      // Get box art for current game
+      if (stream.game_id) {
+        const gameRes = await fetch(
+          `https://api.twitch.tv/helix/games?id=${stream.game_id}`,
+          { headers: twitchHeaders }
+        );
+        if (gameRes.ok) {
+          const gameData = await gameRes.json();
+          if (gameData.data.length > 0) {
+            streamGameArt = gameData.data[0].box_art_url
+              .replace('{width}', '144')
+              .replace('{height}', '192');
+          }
+        }
+      }
+
+      // Upsert stream record — creates or updates based on stream_id
+      // This is how we store game info for later VOD lookup
+      await supabase.from('stream_history').upsert({
+        stream_id:  stream.id,
+        game_name:  stream.game_name,
+        game_art:   streamGameArt,
+        title:      stream.title,
+        started_at: stream.started_at,
+      }, { onConflict: 'stream_id' });
+    }
+
+    // ── Get latest VOD ────────────────────────────────────────────────────
     const vodRes = await fetch(
       `https://api.twitch.tv/helix/videos?user_id=${userId}&type=archive&first=1`,
       { headers: twitchHeaders }
     );
-
-    if (!vodRes.ok) {
-      throw new Error(`Twitch videos request failed: ${vodRes.status}`);
-    }
-
+    if (!vodRes.ok) throw new Error(`Videos request failed: ${vodRes.status}`);
     const vodData = await vodRes.json();
     const vod     = vodData.data.length > 0 ? vodData.data[0] : null;
 
-    // Step 4: Format VOD date into a readable string
+    // ── Look up VOD game from stream_history ──────────────────────────────
+    let vodGame    = null;
+    let vodGameArt = null;
+
+    if (vod?.stream_id) {
+      const { data: historyRow } = await supabase
+        .from('stream_history')
+        .select('game_name, game_art')
+        .eq('stream_id', vod.stream_id)
+        .single();
+
+      if (historyRow) {
+        vodGame    = historyRow.game_name;
+        vodGameArt = historyRow.game_art;
+      }
+    }
+
+    // ── Format VOD date ───────────────────────────────────────────────────
     const vodDate = vod
       ? new Date(vod.created_at).toLocaleDateString('en-US', {
           year: 'numeric', month: 'long', day: 'numeric',
         })
       : null;
 
-    // Step 5: Return clean response to frontend
+    // ── Return response ───────────────────────────────────────────────────
     return new Response(
       JSON.stringify({
         isLive,
         stream: isLive ? {
-          title: stream.title,
-          game:  stream.game_name,
+          title:   stream.title,
+          game:    stream.game_name,
+          gameArt: streamGameArt,
         } : null,
         vod: vod ? {
-          id:    vod.id,
-          title: vod.title,
-          date:  vodDate,
+          id:      vod.id,
+          title:   vod.title,
+          date:    vodDate,
+          game:    vodGame,
+          gameArt: vodGameArt,
+          stream_id: vod.stream_id,
         } : null,
       }),
       {
@@ -147,7 +135,6 @@ Deno.serve(async (req: Request) => {
     );
 
   } catch (error) {
-    // Return error response with CORS headers so browser can read the error
     return new Response(
       JSON.stringify({ error: error.message }),
       {
