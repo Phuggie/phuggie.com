@@ -80,9 +80,7 @@ async function loadEvents() {
     // Sort by event_date ascending so soonest events show first
     // filters[event_date][$gte] = only show future events
     const now = new Date().toISOString();
-    const res = await fetch(
-    `http://localhost:1337/api/stream-events?sort=event_date:asc&filters[event_date][$gte]=${now}&populate=*`
-    );
+    const res = await fetch(`https://phuggie-cms.onrender.com/api/stream-events?sort=event_date:asc&filters[event_date][$gte]=${now}&populate=*`);
 
     if (!res.ok) throw new Error(`Failed to fetch events: ${res.status}`);
     const data = await res.json();
