@@ -52,65 +52,81 @@
         </div>
 
         <button class="complaints-btn" id="complaintsBtn">Complaints</button>
-
       </nav>
     </header>
 
     <main class="schedule-main">
 
-      <!-- Countdown -->
-      <section class="countdown-section">
-        <div class="countdown-label">Next Stream In</div>
-        <div class="countdown-timer" id="countdown">
-          <div class="countdown-block"><span id="cd-days">00</span><label>Days</label></div>
-          <div class="countdown-sep">:</div>
-          <div class="countdown-block"><span id="cd-hours">00</span><label>Hours</label></div>
-          <div class="countdown-sep">:</div>
-          <div class="countdown-block"><span id="cd-minutes">00</span><label>Minutes</label></div>
-          <div class="countdown-sep">:</div>
-          <div class="countdown-block"><span id="cd-seconds">00</span><label>Seconds</label></div>
+      <div class="schedule-layout">
+
+        <!-- Left column: countdown + weekly schedule -->
+        <div class="left-col">
+
+          <section class="countdown-section">
+            <div class="countdown-label">Next Stream In</div>
+            <div class="countdown-timer" id="countdown">
+              <div class="countdown-block"><span id="cd-days">00</span><label>Days</label></div>
+              <div class="countdown-sep">:</div>
+              <div class="countdown-block"><span id="cd-hours">00</span><label>Hrs</label></div>
+              <div class="countdown-sep">:</div>
+              <div class="countdown-block"><span id="cd-minutes">00</span><label>Min</label></div>
+              <div class="countdown-sep">:</div>
+              <div class="countdown-block"><span id="cd-seconds">00</span><label>Sec</label></div>
+            </div>
+          </section>
+
+          <section class="weekly-section">
+            <h2 class="section-title">Weekly Schedule</h2>
+            <div class="schedule-cards">
+
+              <div class="schedule-card">
+                <div class="card-day">Monday</div>
+                <div class="card-times">
+                  <span class="card-time-cst">5:00 PM CST</span>
+                  <span class="card-time-local" data-cst-hour="17" data-cst-minute="0"></span>
+                </div>
+              </div>
+
+              <div class="schedule-card">
+                <div class="card-day">Wednesday</div>
+                <div class="card-times">
+                  <span class="card-time-cst">5:00 PM CST</span>
+                  <span class="card-time-local" data-cst-hour="17" data-cst-minute="0"></span>
+                </div>
+              </div>
+
+              <div class="schedule-card">
+                <div class="card-day">Friday</div>
+                <div class="card-times">
+                  <span class="card-time-cst">5:00 PM CST</span>
+                  <span class="card-time-local" data-cst-hour="17" data-cst-minute="0"></span>
+                </div>
+              </div>
+
+              <div class="schedule-card">
+                <div class="card-day">Saturday</div>
+                <div class="card-times">
+                  <span class="card-time-cst">12:00 PM CST</span>
+                  <span class="card-time-local" data-cst-hour="12" data-cst-minute="0"></span>
+                </div>
+              </div>
+
+            </div>
+          </section>
+
         </div>
-      </section>
 
-      <!-- Weekly Schedule -->
-      <section class="weekly-section">
-        <h2 class="section-title">Weekly Schedule</h2>
-        <div class="schedule-cards">
-
-          <div class="schedule-card">
-            <div class="card-day">Monday</div>
-            <div class="card-time">5:00 PM CST</div>
-            <div class="card-note">Co-op &amp; Variety</div>
-          </div>
-
-          <div class="schedule-card">
-            <div class="card-day">Wednesday</div>
-            <div class="card-time">5:00 PM CST</div>
-            <div class="card-note">Co-op &amp; Variety</div>
-          </div>
-
-          <div class="schedule-card">
-            <div class="card-day">Friday</div>
-            <div class="card-time">5:00 PM CST</div>
-            <div class="card-note">Co-op &amp; Variety</div>
-          </div>
-
-          <div class="schedule-card">
-            <div class="card-day">Saturday</div>
-            <div class="card-time">12:00 PM CST</div>
-            <div class="card-note">Community Day</div>
-          </div>
-
+        <!-- Right column: upcoming streams -->
+        <div class="right-col">
+          <section class="events-section">
+            <h2 class="section-title">Upcoming Streams</h2>
+            <div class="events-list" id="eventsList">
+              <div class="events-loading">Loading events...</div>
+            </div>
+          </section>
         </div>
-      </section>
 
-      <!-- Upcoming Events -->
-      <section class="events-section">
-        <h2 class="section-title">Upcoming Events</h2>
-        <div class="events-list" id="eventsList">
-          <div class="events-loading">Loading events...</div>
-        </div>
-      </section>
+      </div>
 
     </main>
 
