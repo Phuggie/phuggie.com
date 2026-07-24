@@ -1,8 +1,8 @@
-// ─── Monitor screen corner coordinates in the original photo (pixels) ───────
+//Background image dimensions
 const IMG_W = 6000;
 const IMG_H = 3375;
 
-//Pixel coordinates of the monitor in the home background image
+//Pixel coordinates of the monitor in the background image
 const CORNERS = {
   tl: { x: 2364, y: 1215 },
   tr: { x: 4073, y: 1192 },

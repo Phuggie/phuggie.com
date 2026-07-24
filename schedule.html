@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Phuggie</title>
+    <title>Phuggie | Schedule</title>
     <link rel="stylesheet" href="css/base.css" />
     <link rel="stylesheet" href="css/nav.css" />
     <link rel="stylesheet" href="css/schedule.css" />
@@ -16,11 +16,9 @@
         <a href="about.html">About</a>
         <a href="schedule.html" class="active">Schedule</a>
         <a href="community.html">Community</a>
-        <a href="merch.html">Merch</a>
+        <a href="shop.html">Shop</a>
         <a href="blog.html">Blog</a>
         <a href="contact.html">Contact</a>
-
-        <button class="complaints-btn" id="complaintsBtn">Complaints</button>
 
         <div class="social-menu">
           <button class="social-toggle" id="socialToggle" aria-label="Social links">
@@ -31,52 +29,96 @@
               <span></span>
             </div>
           </button>
-
           <div class="social-dropdown" id="socialDropdown">
             <a href="https://twitch.tv/phuggie" target="_blank">
-              <img src="https://cdn.simpleicons.org/twitch/c084fc" width="18" height="18" alt="Twitch" />
-              Twitch
+              <img src="https://cdn.simpleicons.org/twitch/c084fc" width="18" height="18" alt="Twitch" />Twitch
             </a>
             <a href="https://youtube.com/@Phuggie" target="_blank">
-              <img src="https://cdn.simpleicons.org/youtube/c084fc" width="18" height="18" alt="YouTube" />
-              YouTube
+              <img src="https://cdn.simpleicons.org/youtube/c084fc" width="18" height="18" alt="YouTube" />YouTube
             </a>
             <a href="https://tiktok.com/@PhuggieTTV" target="_blank">
-              <img src="https://cdn.simpleicons.org/tiktok/c084fc" width="18" height="18" alt="TikTok" />
-              TikTok
+              <img src="https://cdn.simpleicons.org/tiktok/c084fc" width="18" height="18" alt="TikTok" />TikTok
             </a>
             <a href="https://x.com/PhuggiePhresh" target="_blank">
-              <img src="https://cdn.simpleicons.org/x/c084fc" width="18" height="18" alt="X / Twitter" />
-              X
+              <img src="https://cdn.simpleicons.org/x/c084fc" width="18" height="18" alt="X / Twitter" />X / Twitter
             </a>
             <a href="https://instagram.com/PhuggieTTV" target="_blank">
-              <img src="https://cdn.simpleicons.org/instagram/c084fc" width="18" height="18" alt="Instagram" />
-              Instagram
+              <img src="https://cdn.simpleicons.org/instagram/c084fc" width="18" height="18" alt="Instagram" />Instagram
             </a>
             <a href="https://discord.gg/nm5tbnsKtT" target="_blank">
-              <img src="https://cdn.simpleicons.org/discord/c084fc" width="18" height="18" alt="Discord" />
-              Discord
+              <img src="https://cdn.simpleicons.org/discord/c084fc" width="18" height="18" alt="Discord" />Discord
             </a>
           </div>
         </div>
+
+        <button class="complaints-btn" id="complaintsBtn">Complaints</button>
+
       </nav>
     </header>
 
-    <main>
-      <section class="schedule">
-        <h1>Schedule</h1>
-        <p>Check out my upcoming streams and events!</p>
+    <main class="schedule-main">
+
+      <!-- Countdown -->
+      <section class="countdown-section">
+        <div class="countdown-label">Next Stream In</div>
+        <div class="countdown-timer" id="countdown">
+          <div class="countdown-block"><span id="cd-days">00</span><label>Days</label></div>
+          <div class="countdown-sep">:</div>
+          <div class="countdown-block"><span id="cd-hours">00</span><label>Hours</label></div>
+          <div class="countdown-sep">:</div>
+          <div class="countdown-block"><span id="cd-minutes">00</span><label>Minutes</label></div>
+          <div class="countdown-sep">:</div>
+          <div class="countdown-block"><span id="cd-seconds">00</span><label>Seconds</label></div>
+        </div>
       </section>
+
+      <!-- Weekly Schedule -->
+      <section class="weekly-section">
+        <h2 class="section-title">Weekly Schedule</h2>
+        <div class="schedule-cards">
+
+          <div class="schedule-card">
+            <div class="card-day">Monday</div>
+            <div class="card-time">5:00 PM CST</div>
+            <div class="card-note">Co-op &amp; Variety</div>
+          </div>
+
+          <div class="schedule-card">
+            <div class="card-day">Wednesday</div>
+            <div class="card-time">5:00 PM CST</div>
+            <div class="card-note">Co-op &amp; Variety</div>
+          </div>
+
+          <div class="schedule-card">
+            <div class="card-day">Friday</div>
+            <div class="card-time">5:00 PM CST</div>
+            <div class="card-note">Co-op &amp; Variety</div>
+          </div>
+
+          <div class="schedule-card">
+            <div class="card-day">Saturday</div>
+            <div class="card-time">12:00 PM CST</div>
+            <div class="card-note">Community Day</div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Upcoming Events -->
+      <section class="events-section">
+        <h2 class="section-title">Upcoming Events</h2>
+        <div class="events-list" id="eventsList">
+          <div class="events-loading">Loading events...</div>
+        </div>
+      </section>
+
     </main>
 
     <footer>
       <p>© 2026 Phuggie. All rights reserved.</p>
     </footer>
 
-    <script defer src="js/homography.js"></script>
-    <script defer src="js/twitch.js"></script>
-    <script defer src="js/typewriter.js"></script>
-    <script defer src="js/home.js"></script>
-    <script defer src="js/main.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/schedule.js"></script>
   </body>
 </html>

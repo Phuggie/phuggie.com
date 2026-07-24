@@ -1,0 +1,269 @@
+.schedule-main {
+  padding: 40px 40px 80px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ── Countdown ── */
+.countdown-section {
+  text-align: center;
+  padding: 60px 0 50px;
+  border-bottom: 1px solid rgba(192, 132, 252, 0.15);
+  margin-bottom: 60px;
+}
+
+.countdown-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--cyan-soft);
+  margin-bottom: 24px;
+}
+
+.countdown-timer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.countdown-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(26, 0, 48, 0.6);
+  border: 1px solid rgba(192, 132, 252, 0.2);
+  border-radius: 12px;
+  padding: 20px 28px;
+  min-width: 100px;
+  position: relative;
+  overflow: hidden;
+}
+
+.countdown-block::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #c084fc, transparent);
+}
+
+.countdown-block span {
+  font-size: 48px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #9333ea, #c084fc);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  display: inline-block;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.countdown-block label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--purple-sat);
+}
+
+.countdown-sep {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--purple-sat);
+  margin-bottom: 20px;
+}
+
+/* ── Section titles ── */
+.section-title {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--cyan-primary);
+  margin-bottom: 28px;
+}
+
+/* ── Weekly schedule cards ── */
+.weekly-section {
+  margin-bottom: 60px;
+}
+
+.schedule-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.schedule-card {
+  background: rgba(26, 0, 48, 0.6);
+  border: 1px solid rgba(192, 132, 252, 0.2);
+  border-radius: 12px;
+  padding: 28px 24px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.schedule-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #c084fc, transparent);
+}
+
+.schedule-card:hover {
+  border-color: rgba(192, 132, 252, 0.4);
+  box-shadow: 0 4px 20px rgba(192, 132, 252, 0.1);
+}
+
+.card-day {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--purple-pale);
+  margin-bottom: 8px;
+}
+
+.card-time {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--cyan-primary);
+  margin-bottom: 8px;
+}
+
+.card-note {
+  font-size: 12px;
+  color: var(--purple-sat);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ── Upcoming events ── */
+.events-section { }
+
+.events-loading {
+  color: var(--purple-sat);
+  font-size: 14px;
+}
+
+.event-card {
+  background: rgba(26, 0, 48, 0.6);
+  border: 1px solid rgba(192, 132, 252, 0.2);
+  border-radius: 12px;
+  padding: 28px 32px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.event-card:hover {
+  border-color: rgba(192, 132, 252, 0.4);
+  box-shadow: 0 4px 20px rgba(192, 132, 252, 0.1);
+}
+
+.event-card.special {
+  border-color: rgba(232, 121, 249, 0.4);
+}
+
+.event-card.special::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #e879f9, transparent);
+}
+
+.event-date-block {
+  text-align: center;
+  min-width: 70px;
+  flex-shrink: 0;
+}
+
+.event-month {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--cyan-primary);
+  margin-bottom: 4px;
+}
+
+.event-day-num {
+  font-size: 36px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #9333ea, #c084fc);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  display: inline-block;
+  line-height: 1;
+}
+
+.event-divider {
+  width: 1px;
+  height: 60px;
+  background: rgba(192, 132, 252, 0.2);
+  flex-shrink: 0;
+}
+
+.event-info { flex: 1; }
+
+.event-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--purple-pale);
+  margin-bottom: 6px;
+}
+
+.event-card.special .event-title {
+  color: #e879f9;
+}
+
+.event-game {
+  font-size: 13px;
+  color: var(--cyan-soft);
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.event-description {
+  font-size: 13px;
+  color: var(--purple-sat);
+  line-height: 1.5;
+}
+
+.event-time {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--purple-light);
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.event-special-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #e879f9;
+  border: 1px solid rgba(232, 121, 249, 0.4);
+  border-radius: 20px;
+  padding: 3px 10px;
+  margin-bottom: 8px;
+}
+
+.events-empty {
+  color: var(--purple-sat);
+  font-size: 14px;
+  padding: 20px 0;
+}

@@ -125,7 +125,6 @@ Deno.serve(async (req: Request) => {
           date:    vodDate,
           game:    vodGame,
           gameArt: vodGameArt,
-          stream_id: vod.stream_id,
         } : null,
       }),
       {
