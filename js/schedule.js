@@ -81,7 +81,7 @@ async function loadEvents() {
     // filters[event_date][$gte] = only show future events
     const now = new Date().toISOString();
     const res = await fetch(
-      `http://localhost:1337/api/stream-events?sort=event_date:asc&filters[event_date][$gte]=${now}&populate=*`
+    `http://localhost:1337/api/stream-events?sort=event_date:asc&filters[event_date][$gte]=${now}&populate=*`
     );
 
     if (!res.ok) throw new Error(`Failed to fetch events: ${res.status}`);
